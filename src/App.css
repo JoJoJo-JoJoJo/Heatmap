@@ -3,17 +3,17 @@
   height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
 .title {
   text-align: center;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 30px;
   text-decoration: underline overline;
 }
 
 .desc {
   font-size: 30px;
-  margin-top: 20px;
+  margin-bottom: auto;
 }

@@ -11,7 +11,7 @@ type Data = {
   readonly year: number;
   readonly month: number;
   readonly variance: number;
-}
+};
 
 interface DataProps {
   readonly baseTemperature: number;
@@ -19,12 +19,17 @@ interface DataProps {
 }
 
 type HeatmapProps = {
+  baseTemp: number;
   data: Data[];
-}
+};
 
 type AxisProps = {
   scale: ScaleBand<string>;
   pxPerTick: number;
-}
+};
 
-export type { marginProps, Data, DataProps, HeatmapProps, AxisProps };
+type ColorProps = {
+  colorScale: d3.ScaleSequential<string, never>;
+};
+
+export type { marginProps, Data, DataProps, HeatmapProps, AxisProps, ColorProps };

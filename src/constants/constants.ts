@@ -1,10 +1,14 @@
 import { marginProps } from "./types";
 
-const margin: marginProps = { top: 0, right: 0, bottom: 0, left: 0 };
-const width: number = 1000 - margin.left - margin.right;
-const height: number = 500 - margin.top - margin.bottom;
+const margin: marginProps = { top: 20, right: 20, bottom: 20, left: 60 };
+const width: number = 900 - margin.left - margin.right;
+const height: number = 400 - margin.top - margin.bottom;
+
+const legendMargin: marginProps = { top: 20, right: 0, bottom: 20, left: 0 };
+const legendWidth: number = 900 - legendMargin.left - legendMargin.right;
+const legendHeight: number = 400 - legendMargin.top - legendMargin.bottom;
 
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
 
-export { margin, width, height, url };
+export { margin, legendMargin, width, height, legendWidth, legendHeight, url };

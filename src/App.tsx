@@ -18,7 +18,7 @@ const App = () => {
     const fetchData = async () => {
       const res = await fetch(url);
       const json = res.json();
-      
+
       setData(await json);
     };
 
@@ -27,13 +27,18 @@ const App = () => {
     fetchData();
   }, [data]);
 
-  const [minYear, maxYear] = d3.extent(monthlyVariance, (d: Data) => d.year)
+  const [minYear, maxYear] = d3.extent(monthlyVariance, (d: Data) => d.year);
 
   return (
     <div className="App">
-      <h1 id="title" className="title">Global temperature variance (monthly)</h1>
-      <h2 id="description" className="desc">{`${minYear} - ${maxYear}: Base temp ${baseTemperature}°C`}</h2>
-      <Heatmap data={monthlyVariance} />
+      <h1 id="title" className="title">
+        Global temperature variance (monthly)
+      </h1>
+      <h2
+        id="description"
+        className="desc"
+      >{`${minYear} - ${maxYear}: Base temp ${baseTemperature}°C`}</h2>
+      <Heatmap data={monthlyVariance} baseTemp={baseTemperature} />
     </div>
   );
 };

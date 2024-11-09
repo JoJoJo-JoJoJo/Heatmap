@@ -1,4 +1,4 @@
-.heatmap {
+.heat-map {
   width: 99%;
   height: 65%;
   background-color: #363636;
@@ -10,4 +10,16 @@
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+.heat-map > svg > .g {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.x-labels,
+.y-labels {
+  stroke: #dedede;
 }
