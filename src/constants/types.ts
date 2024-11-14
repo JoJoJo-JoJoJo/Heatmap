@@ -30,6 +30,25 @@ type AxisProps = {
 
 type ColorProps = {
   colorScale: d3.ScaleSequential<string, never>;
+  data: Data[];
 };
 
-export type { marginProps, Data, DataProps, HeatmapProps, AxisProps, ColorProps };
+type TickProps = {
+  tick: number;
+  scaleX: d3.ScaleLinear<number, number, never>;
+};
+
+type RectProps = {
+  color: string;
+}
+
+export type {
+  marginProps,
+  Data,
+  DataProps,
+  HeatmapProps,
+  AxisProps,
+  ColorProps,
+  TickProps,
+  RectProps
+};

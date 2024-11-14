@@ -5,45 +5,51 @@ import {
   legendHeight,
   legendWidth,
   legendMargin,
+  margin,
 } from "../../constants/constants";
+import { Tick } from "./Ticks";
+import "./ColorLegend.css";
 
 const ColorLegend = ({ colorScale }: ColorProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const domain = colorScale.domain();
+  const domain = colorScale.domain(); // data variance range
   const max = domain[domain.length - 1];
   const x = d3.scaleLinear().range([0, legendWidth]).domain([0, max]);
 
-  const ticks = x.ticks(4).map((tick) => (
-    <>
-      <line
-        x1={x(tick)}
-        x2={x(tick)}
-        y1={0}
-        y2={legendHeight + 10}
-        stroke="#dedede"
-      />
-      <text x={x(tick)} y={legendHeight + 20} fontSize={9} textAnchor="middle">
-        {tick}
-      </text>
-    </>
-  ));
+  const ticks = x
+    .ticks(5)
+    .map((tick) => <Tick key={`_${tick}`} tick={tick} scaleX={x} />);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-
-    if (!context) return;
-
-    for (let i = 0; i < legendWidth; ++i) {
-      context.fillStyle = colorScale((max * i) / legendWidth);
-      context.fillRect(i, 0, 1, legendHeight);
+    if (canvas === null) {
+      console.error("Canvas element is null.");
+      return;
     }
+
+    setTimeout(() => {
+      const context = canvas.getContext("2d");
+      if (!context) {
+        console.error("Failed to get 2D context.");
+        return;
+      }
+      
+      for (let i = 0; i < legendWidth + margin.left + margin.right; ++i) {
+        context.fillStyle = colorScale((max * i) / legendWidth);
+        context.fillRect(i, 0, 1, legendHeight + margin.top + margin.bottom);
+      }
+    }, 100);
   }, [colorScale, max]);
 
   return (
-    <div style={{ width: legendWidth, height: legendHeight }}>
-      <div
+    <g
+      style={{
+        width: legendWidth + legendMargin.left + legendMargin.right,
+        height: legendHeight + legendMargin.top + legendMargin.bottom,
+      }}
+    >
+      <g
         style={{
           position: "relative",
           transform: `translate(${legendMargin.left}px, ${legendMargin.top}px)`,
@@ -53,12 +59,12 @@ const ColorLegend = ({ colorScale }: ColorProps) => {
         <svg
           width={legendWidth}
           height={legendHeight}
-          style={{ position: "absolute", top: 0, left: 0, overflow: "visible" }}
+          style={{ position: "absolute", top: legendHeight, left: (legendWidth / 2), overflow: "visible" }}
         >
           {ticks}
         </svg>
-      </div>
-    </div>
+      </g>
+    </g>
   );
 };
 

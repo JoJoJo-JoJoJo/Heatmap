@@ -3,7 +3,7 @@ import { height, margin, width } from "../constants/constants";
 import { Data, HeatmapProps } from "../constants/types";
 import * as d3 from "d3";
 import "./Heatmap.css";
-import ColorLegend from "./ColorLegend/ColorLegend";
+import ColorScale from "./ColorLegend/ColorScale";
 
 const Heatmap = ({ data, baseTemp }: HeatmapProps) => {
   const xGroups: string[] = useMemo(
@@ -25,13 +25,6 @@ const Heatmap = ({ data, baseTemp }: HeatmapProps) => {
     [data]
   );
 
-  const [minY, maxY] = d3.extent(data, (d: Data) => d.year);
-
-  const cDomain: [number, number] = d3.extent(
-    data,
-    (d: Data) => d.variance
-  ) as [number, number];
-
   const x = useMemo(
     () => d3.scaleBand().domain(xGroups).range([0, width]).padding(0.05),
     [xGroups]
@@ -42,17 +35,21 @@ const Heatmap = ({ data, baseTemp }: HeatmapProps) => {
     [yGroups]
   );
 
-  const color = d3
-    .scaleSequential()
-    .interpolator(d3.interpolateInferno)
-    .domain(cDomain);
+  const varianceArr: number[] = [];
+  data.forEach((d: Data) => varianceArr.push(d.variance));
+
+  const cDomain: [number, number] = d3.extent(varianceArr) as [number, number];
+
+  const color = useMemo(
+    () =>
+      d3.scaleSequential().interpolator(d3.interpolateInferno).domain(cDomain),
+    [cDomain]
+  );
 
   const xLabels = xGroups.map((year: string, i: number) => {
     const PX = x(year) ?? 0;
     return (
-      (parseInt(year) % 25 === 0 ||
-        year === minY?.toString() ||
-        year === maxY?.toString()) && (
+      parseInt(year) % 25 === 0 && (
         <text
           className="x-labels"
           key={i}
@@ -94,11 +91,12 @@ const Heatmap = ({ data, baseTemp }: HeatmapProps) => {
 
   return (
     <div id="heatmap" className="heat-map">
-      <legend id="legend" className="color-scale"></legend>
       <svg
         width={width + margin.left + margin.right}
         height={height + margin.top + margin.bottom}
+        style={{ position: "relative" }}
       >
+        <ColorScale colorScale={color} data={data} />
         <g
           className="g"
           width={width}
@@ -113,8 +111,8 @@ const Heatmap = ({ data, baseTemp }: HeatmapProps) => {
               <rect
                 className="cell"
                 key={i}
-                r={4}
-                rx={5}
+                rx={2}
+                ry={2}
                 x={x(d.year.toString())}
                 y={y(month)}
                 width={x.bandwidth()}
@@ -129,7 +127,6 @@ const Heatmap = ({ data, baseTemp }: HeatmapProps) => {
           <g id="x-axis">{xLabels}</g>
           <g id="y-axis">{yLabels}</g>
         </g>
-        {/* <ColorLegend colorScale={color} /> */}
       </svg>
     </div>
   );
