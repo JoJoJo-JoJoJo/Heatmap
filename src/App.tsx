@@ -36,13 +36,15 @@ const App = () => {
   
   return (
     <div className="App">
-      <h1 id="title" className="title">
-        Global temperature variance (monthly)
-      </h1>
-      <h2
-        id="description"
-        className="desc"
-      >{`${validMinYear} - ${validMaxYear}: Base temp ${baseTemperature}°C`}</h2>
+      <div className="header-bar">
+        <h1 id="title" className="title">
+          Global temperature <b>variance</b> (monthly)
+        </h1>
+        <p
+          id="description"
+          className="desc"
+        >{`${validMinYear} - ${validMaxYear}: Base temp. ${baseTemperature}°C`}</p>
+      </div>
       <Heatmap data={monthlyVariance} baseTemp={baseTemperature} />
     </div>
   );

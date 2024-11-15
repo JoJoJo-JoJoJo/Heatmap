@@ -1,8 +1,33 @@
 :root {
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #8e8885;
+  background-color: #efecea;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  height: 22px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  background-color: #e5e2ed;
+  font-size: 12px;
+}
+
+.bold {
+  font-weight: bold;
 }

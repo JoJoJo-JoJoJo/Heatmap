@@ -1,10 +1,6 @@
 .heat-map {
   width: 99%;
   height: 65%;
-  background-color: #363636;
-  border: 1px solid orange;
-  border-radius: 5px;
-  box-shadow: 1px 2px 2px orange;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,7 +15,14 @@
   align-items: center;
 }
 
-.x-labels,
-.y-labels {
-  stroke: #dedede;
+.legend-title {
+  fill: #635f5d;
+}
+
+.tick {
+  stroke: #635f5d;
+}
+
+.tick-label {
+  fill: #635f5d;
 }

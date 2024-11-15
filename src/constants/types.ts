@@ -29,9 +29,14 @@ type AxisProps = {
 };
 
 type ColorProps = {
-  colorScale: d3.ScaleSequential<string, never>;
-  data: Data[];
+  scale: d3.ScaleSequential<string, never>;
 };
+
+type HeatTickProps = {
+  tickValue: string;
+  scale: d3.ScaleBand<string>;
+  innerSize: number;
+}
 
 type TickProps = {
   tick: number;
@@ -49,6 +54,7 @@ export type {
   HeatmapProps,
   AxisProps,
   ColorProps,
+  HeatTickProps,
   TickProps,
   RectProps
 };
