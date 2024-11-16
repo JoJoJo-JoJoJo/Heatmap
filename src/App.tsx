@@ -4,6 +4,7 @@ import { url } from "./constants/constants";
 import { DataProps, Data } from "./constants/types";
 import * as d3 from "d3";
 import Heatmap from "./Heatmap/Heatmap";
+import Header from "./Header/Header";
 
 const initObj = {
   baseTemperature: 0,
@@ -31,21 +32,15 @@ const App = () => {
   const { baseTemperature, monthlyVariance }: DataProps = data;
   
   const [minYear, maxYear] = d3.extent(monthlyVariance, (d: Data) => d.year);
-  const validMinYear = minYear ?? "No data";
-  const validMaxYear = maxYear ?? "No data";
+  const validMinYear = minYear ?? "Loading...";
+  const validMaxYear = maxYear ?? "Loading...";
+
+  const validBaseTemp = baseTemperature === 0 ? "Loading..." : baseTemperature;
   
   return (
     <div className="App">
-      <div className="header-bar">
-        <h1 id="title" className="title">
-          Global temperature <b>variance</b> (monthly)
-        </h1>
-        <p
-          id="description"
-          className="desc"
-        >{`${validMinYear} - ${validMaxYear}: Base temp. ${baseTemperature}°C`}</p>
-      </div>
-      <Heatmap data={monthlyVariance} baseTemp={baseTemperature} />
+      <Header min={validMinYear} max={validMaxYear} baseTemp={validBaseTemp} />
+      <Heatmap data={monthlyVariance} baseTemp={+(Math.round(baseTemperature * 100) / 100).toFixed(2)} />
     </div>
   );
 };

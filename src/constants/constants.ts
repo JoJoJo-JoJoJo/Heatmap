@@ -4,13 +4,10 @@ const margin: marginProps = { top: 20, right: 20, bottom: 170, left: 80 };
 const width: number = 900 - margin.left - margin.right;
 const height: number = 600 - margin.top - margin.bottom;
 
-// const legendMargin: marginProps = { top: 20, right: 0, bottom: 20, left: 0 };
-// const legendWidth: number = 20 - legendMargin.left - legendMargin.right;
-// const legendHeight: number = 10 - legendMargin.top - legendMargin.bottom;
-
-const tickSpacing: number = 50;
+const innerLegendTicks = 4;
+const tickSpacing: number = 60;
 
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
 
-export { margin, width, height, url, tickSpacing };
+export { margin, width, height, url, tickSpacing, innerLegendTicks };

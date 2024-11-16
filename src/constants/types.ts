@@ -18,10 +18,33 @@ interface DataProps {
   readonly monthlyVariance: Data[];
 }
 
+type loading = number | "Loading...";
+
+type HeaderProps = {
+  min: number | loading;
+  max: number | loading;
+  baseTemp: number | loading;
+};
+
 type HeatmapProps = {
   baseTemp: number;
   data: Data[];
 };
+
+type RendererProps = {
+  data: Data[];
+  setHoveredCell: React.Dispatch<React.SetStateAction<InteractData | null>>;
+  setIsHovered: React.Dispatch<React.SetStateAction<boolean>>;
+  baseTemp: number;
+};
+
+interface InteractData {
+  readonly year: string;
+  readonly monthName: string;
+  readonly variance: number | string;
+  readonly xPos: number | string;
+  readonly yPos: number | string;
+}
 
 type AxisProps = {
   scale: ScaleBand<string>;
@@ -30,13 +53,14 @@ type AxisProps = {
 
 type ColorProps = {
   scale: d3.ScaleSequential<string, never>;
+  readonly baseTemp: number;
 };
 
 type HeatTickProps = {
   tickValue: string;
   scale: d3.ScaleBand<string>;
-  innerSize: number;
-}
+  innerSize?: number;
+};
 
 type TickProps = {
   tick: number;
@@ -45,16 +69,26 @@ type TickProps = {
 
 type RectProps = {
   color: string;
+};
+
+interface TooltipProps extends InteractData {
+  readonly baseTemp: number;
+  isHovered: boolean;
 }
 
 export type {
   marginProps,
+  HeaderProps,
+  loading,
   Data,
   DataProps,
   HeatmapProps,
+  InteractData,
   AxisProps,
   ColorProps,
   HeatTickProps,
   TickProps,
-  RectProps
+  RectProps,
+  TooltipProps,
+  RendererProps,
 };
