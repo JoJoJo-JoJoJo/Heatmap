@@ -33,7 +33,7 @@ const Renderer = ({
   );
 
   const x = useMemo(
-    () => d3.scaleBand().domain(xGroups).range([0, width]).padding(0.05),
+    () => d3.scaleBand().domain(xGroups).range([0, width]).padding(0.01),
     [xGroups]
   );
 
@@ -55,7 +55,6 @@ const Renderer = ({
 
   const xLabels = x.domain().map((tickValue, i: number) => {
     if (i % 10 !== 2) return;
-    console.log(tickValue);
     return (
       <HeatTickX
         key={`${i}__${tickValue}`}
@@ -95,8 +94,8 @@ const Renderer = ({
             <rect
               className="cell"
               key={i}
-              rx={2}
-              ry={2}
+              rx="2"
+              ry="2"
               x={x(d.year.toString())}
               y={y(month)}
               width={x.bandwidth()}
