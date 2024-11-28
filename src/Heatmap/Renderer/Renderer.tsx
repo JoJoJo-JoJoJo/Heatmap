@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { height, margin, width } from "../../constants/constants";
 import { Data, RendererProps } from "../../constants/types";
 import * as d3 from "d3";
@@ -13,6 +13,7 @@ const Renderer = ({
   setIsHovered,
   baseTemp,
 }: RendererProps) => {
+
   const xGroups: string[] = useMemo(
     () => [...new Set(data.map((d: Data) => d.year.toString()))],
     [data]
@@ -54,13 +55,13 @@ const Renderer = ({
   );
 
   const xLabels = x.domain().map((tickValue, i: number) => {
-    if (i % 10 !== 2) return;
+    if (i % 20 !== 2) return;
     return (
       <HeatTickX
         key={`${i}__${tickValue}`}
         tickValue={tickValue}
         scale={x}
-        innerSize={height}
+        innerHeight={height}
       />
     );
   });
@@ -83,44 +84,46 @@ const Renderer = ({
         height={height}
         transform={`translate(${[margin.left, margin.top].join(", ")})`}
       >
-        <g id="x-axis">{xLabels}</g>
-        <g id="y-axis">{yLabels}</g>
+        <g className="x-axis" id="x-axis">{xLabels}</g>
+        <g className="y-axis" id="y-axis">{yLabels}</g>
         <ColorLegend scale={color} baseTemp={baseTemp} />
-        {data.map((d: Data, i: number) => {
-          if (d == null) return;
-          const date = new Date(d.year, d.month - 1);
-          const month = date.toLocaleString("default", { month: "long" });
-          return (
-            <rect
-              className="cell"
-              key={i}
-              rx="2"
-              ry="2"
-              x={x(d.year.toString())}
-              y={y(month)}
-              width={x.bandwidth()}
-              height={y.bandwidth()}
-              fill={color(d.variance)}
-              data-month={d.month - 1}
-              data-year={d.year.toString()}
-              data-temp={baseTemp + d.variance}
-              onMouseOver={() => {
-                setHoveredCell({
-                  year: d.year.toString(),
-                  monthName: month,
-                  variance: d.variance,
-                  xPos: x(d.year.toString()) ?? "Loading...",
-                  yPos: y(month) ?? "Loading...",
-                });
-                setIsHovered((prev) => !prev);
-              }}
-              onMouseLeave={() => setIsHovered((prev) => !prev)}
-            />
-          );
-        })}
+        <g className="data-rects">
+          {data.map((d: Data, i: number) => {
+            if (d == null) return;
+            const date = new Date(d.year, d.month - 1);
+            const month = date.toLocaleString("default", { month: "long" });
+            return (
+              <rect
+                className="cell"
+                key={i}
+                rx="2"
+                ry="2"
+                x={x(d.year.toString())}
+                y={y(month)}
+                width={x.bandwidth()}
+                height={y.bandwidth()}
+                fill={color(d.variance)}
+                data-month={d.month - 1}
+                data-year={d.year.toString()}
+                data-temp={baseTemp + d.variance}
+                onMouseOver={() => {
+                  setHoveredCell({
+                    year: d.year.toString(),
+                    monthName: month,
+                    variance: d.variance,
+                    xPos: x(d.year.toString()) ?? "Loading...",
+                    yPos: y(month) ?? "Loading...",
+                  });
+                  setIsHovered((prev) => !prev);
+                }}
+                onMouseLeave={() => setIsHovered((prev) => !prev)}
+              />
+            );
+          })}
+        </g>
       </g>
     </svg>
   );
 };
 
-export default Renderer;
+export default React.memo(Renderer);

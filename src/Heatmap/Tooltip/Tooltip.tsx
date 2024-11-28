@@ -1,3 +1,4 @@
+import React from "react";
 import { TooltipProps } from "../../constants/types";
 import "./Tooltip.css";
 
@@ -31,11 +32,11 @@ const Tooltip = ({
         <p>
           {year} - {monthName}
         </p>
-        <p>{typeof variance === "string" ? variance : baseTemp + variance}</p>
+        <p>{typeof variance === "string" ? variance : (baseTemp + variance).toFixed(2)}</p>
         <p>{variance}</p>
       </div>
     </div>
   );
 };
 
-export default Tooltip;
+export default React.memo(Tooltip);

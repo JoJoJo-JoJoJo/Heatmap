@@ -8,19 +8,11 @@
   position: relative;
 }
 
-.heat-map > svg > .g {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
 .legend-title {
   fill: #635f5d;
 }
 
-.tick {
+.tick > line {
   stroke: #635f5d;
 }
 

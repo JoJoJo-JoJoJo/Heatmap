@@ -46,6 +46,13 @@ interface InteractData {
   readonly yPos: number | string;
 }
 
+// interface DOMRect extends DOMRectReadOnly {
+//   height: number;
+//   width: number;
+//   x: number;
+//   y: number;
+// };
+
 type AxisProps = {
   scale: ScaleBand<string>;
   pxPerTick: number;
@@ -59,7 +66,7 @@ type ColorProps = {
 type HeatTickProps = {
   tickValue: string;
   scale: d3.ScaleBand<string>;
-  innerSize?: number;
+  innerHeight?: number;
 };
 
 type TickProps = {
@@ -83,6 +90,7 @@ export type {
   Data,
   DataProps,
   HeatmapProps,
+  // DOMRect,
   InteractData,
   AxisProps,
   ColorProps,
